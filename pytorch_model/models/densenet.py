@@ -41,7 +41,9 @@ class DenseNet(nn.Module):
         self.growth_rate = growth_rate
 
         num_planes = 2*growth_rate
-        self.conv1 = nn.Conv2d(3, num_planes, kernel_size=3, padding=1, bias=False)
+        #self.conv1 = nn.Conv2d(3, num_planes, kernel_size=7, padding=1, bias=False) #cifar10
+        self.conv1 = nn.Conv2d(3, num_planes, kernel_size=7, stride=2, bias=False) #imagenet
+
 
         self.dense1 = self._make_dense_layers(block, num_planes, nblocks[0])
         num_planes += nblocks[0]*growth_rate
@@ -76,6 +78,8 @@ class DenseNet(nn.Module):
 
     def forward(self, x):
         out = self.conv1(x)
+        #cifar10 donnot need
+        out=F.max_pool2d(out,3,2)
         out = self.trans1(self.dense1(out))
         out = self.trans2(self.dense2(out))
         out = self.trans3(self.dense3(out))
@@ -102,8 +106,8 @@ def densenet_cifar():
 
 def test_densenet():
     net = densenet_cifar()
-    x = torch.randn(1,3,32,32)
+    x = torch.randn(1,3,224,224)
     y = net(Variable(x))
     print(y)
 
-# test_densenet()
+test_densenet()

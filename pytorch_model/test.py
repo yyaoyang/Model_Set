@@ -53,11 +53,5 @@ if __name__ == "__main__":
     #crrc_demo, labels=to_svm(crrc_demo)
     #svm_func(crrc_demo)
     #pre()
-    #h=np.array([[1],[2],[3],[4],[5]])
-    co=0
-    h=[1,0,1,0,0,0]
-    c=[0,0,0,0,0,0]
-    co += (int(h == c)).sum()
-    print(co)
     #print(np.interp(2.5, xp, fp))
 
